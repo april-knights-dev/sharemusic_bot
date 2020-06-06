@@ -29,13 +29,11 @@ from bs4 import BeautifulSoup
 
 # .*でどんなメッセージでも受け付ける状態
 # respond_toで指定してもいいし、中でif message=xxx と分岐してもいい
-@respond_to('(.*)')
-def mention_func(message, args):
-    ret = get_chien_info(args)
-
-    print(ret)
-    print(type(ret))
-    message.reply(ret) # メンション
+@respond_to(('.*'))
+def mention_func(message): # argsはメッセージの内容を取ってる messageはメンション者の取得
+    result = fetch_text()
+    print(result)
+    message.reply(message.body['text']) # メンション
 
 
 
@@ -43,3 +41,20 @@ def mention_func(message, args):
 # def listen_func(message):
 #     message.send('誰かがリッスンと投稿したようだ')      # ただの投稿
 #     message.reply('君だね？')
+
+SLACK_CHANNEL_ID = "CC9NTUBEY"
+SLACK_URL = "https://slack.com/api/conversations.history"
+TOKEN = os.environ["TOKEN"]
+# チャンネルの投稿を全て取得
+def fetch_text():
+    """ share_musicチャンネルの投稿を取得してjsonに変換
+    Returns:
+        str: チャンネル投稿のデータjson
+    """
+    payload = {
+        "channel": SLACK_CHANNEL_ID,
+        "token": TOKEN
+    }
+    response = requests.get(SLACK_URL, params=payload)
+    json_data = response.json()
+    return json_data
