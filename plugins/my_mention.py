@@ -10,6 +10,11 @@ import sys
 import json
 from bs4 import BeautifulSoup
 
+import json
+import pprint
+
+import random
+
 # @respond_to('string')     bot宛のメッセージ
 #                           stringは正規表現が可能 「r'string'」
 # @listen_to('string')      チャンネル内のbot宛以外の投稿
@@ -31,10 +36,53 @@ from bs4 import BeautifulSoup
 # respond_toで指定してもいいし、中でif message=xxx と分岐してもいい
 @respond_to(('.*'))
 def mention_func(message): # argsはメッセージの内容を取ってる messageはメンション者の取得
-    result = fetch_text()
-    print(result)
-    message.reply(message.body['text']) # メンション
 
+    # 1. 型を確認する → type(変数)
+    # 2. 型に応じて分解する
+
+    result = fetch_text() # 過去の投稿データ
+    # print(result)
+    msg = result['messages']
+    print(len(msg))
+    music_link = msg[0]['attachments'][0]['title_link']
+ 
+
+    # result["text"] = result.get("text") →　中身が出てくる
+    music_list = [] 
+    for n in msg:
+        if n.get('attachments') is not None:
+            if n['attachments'][0].get('title_link') is not None:
+                 music_list.append(n['attachments'][0]['title_link'])
+
+    # @share_music_bot: 音楽
+    # [URL1, URL2, URL3, URL4, URL5, URL6, .....] → ここからランダム
+    # print(music_list)
+
+    randnum = random.randrange(0,len(music_list)) #len(music_list)で今ある投稿分の乱数を指定
+    music_list[randnum] #
+
+    # msg = result['messages'] # リスト型
+    # # print(msg,type(msg))
+    # # print(msg[0]) # >> 'author_link': 'https://www.youtube.com/user/blacklipton'
+    # msg_0 = msg[0] # 辞書型
+    # at = msg_0['attachments']
+    # # print(at)
+    # # for k,v in msg_0.items():
+    # #     print(k,v)
+    # at_0 = at[0]
+    # # print(at_0)
+    # link = at_0['title_link']
+    # print(music_link) 
+
+
+    # @share_music_bot: UGES7CGJU
+    # {"UGES7CGJU": [URL1, URL2, URL3], "QWEZZRT2": [URL1], ....}
+
+
+    message.reply(f'これおすすめやで\n{music_list[randnum]}')   c
+    #message.reply(message.body['text']) # メンション
+    # message.reply(result['text'])
+    
 
 
 # @listen_to('リッスン')
@@ -53,7 +101,8 @@ def fetch_text():
     """
     payload = {
         "channel": SLACK_CHANNEL_ID,
-        "token": TOKEN
+        "token": TOKEN,
+        "limit": 1000,
     }
     response = requests.get(SLACK_URL, params=payload)
     json_data = response.json()
