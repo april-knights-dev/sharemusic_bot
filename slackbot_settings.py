@@ -5,7 +5,7 @@ import os
 API_TOKEN = os.environ["API_TOKEN"]
 
 # このbot宛のメッセージで、どの応答にも当てはまらない場合の応答文字列
-DEFAULT_REPLY = "ミスってるよ？？？"
+DEFAULT_REPLY = "musicまたはumameshiってメンションしてね"
 
 # プラグインスクリプトを置いてあるサブディレクトリ名のリスト
 PLUGINS = ['plugins']

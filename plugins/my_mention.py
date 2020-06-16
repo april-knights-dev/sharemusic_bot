@@ -34,8 +34,10 @@ import random
 
 # .*でどんなメッセージでも受け付ける状態
 # respond_toで指定してもいいし、中でif message=xxx と分岐してもいい
-@respond_to(('.*'))
-def mention_func(message): # argsはメッセージの内容を取ってる messageはメンション者の取得
+
+# @respond_to(('.*'))
+@respond_to('music')
+def music_func(message): # argsはメッセージの内容を取ってる messageはメンション者の取得
 
     # 1. 型を確認する → type(変数)
     # 2. 型に応じて分解する
@@ -61,7 +63,7 @@ def mention_func(message): # argsはメッセージの内容を取ってる mess
     # [URL1, URL2, URL3, URL4, URL5, URL6, .....] → ここからランダム
     # print(target_user)
 
-    randnum = random.randrange(0,len(music_list)) #len(music_list)で今ある投稿分の乱数を指定
+    randnum = random.randrange(0,len(music_list) - 1) #len(music_list)で今ある投稿分の乱数を指定
     music_list[randnum] # こんにちわ
 
     # msg = result['messages'] # リスト型
@@ -86,7 +88,25 @@ def mention_func(message): # argsはメッセージの内容を取ってる mess
     #message.reply(message.body['text']) # メンション
     # message.reply(result['text'])
     
+@respond_to('umameshi') 
+def umameshi_func(message):
 
+    result2 = fetch_text('CC8JN3PC6')
+    # print(result2)
+    msg2 = result2['messages']
+    
+    umameshi_list = []
+    for n in msg2:
+        if n.get('attachments') is not None:
+            if n['attachments'][0].get('title_link') is not None:
+                 umameshi_list.append(n['attachments'][0]['title_link'])
+    # print(umameshi_list)
+    # print(len(umameshi_list))
+
+    randnum2 = random.randrange(0,len(umameshi_list) - 1) #len(music_list)で今ある投稿分の乱数を指定
+    umameshi_list[randnum2] 
+
+    message.reply(f'これうんまいで〜〜〜！\n{umameshi_list[randnum2]}') 
 
 # @listen_to('リッスン')
 # def listen_func(message):
@@ -110,6 +130,4 @@ def fetch_text(channel_id):
     response = requests.get(SLACK_URL, params=payload)
     json_data = response.json()
     return json_data
-
-# def 関数(): で別API情報　実装予定
 
