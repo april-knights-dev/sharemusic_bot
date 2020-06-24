@@ -36,7 +36,7 @@ import random
 # respond_toで指定してもいいし、中でif message=xxx と分岐してもいい
 
 # @respond_to(('.*'))
-@respond_to('music')
+@respond_to('音楽')
 def music_func(message): # argsはメッセージの内容を取ってる messageはメンション者の取得
 
     # 1. 型を確認する → type(変数)
@@ -84,11 +84,11 @@ def music_func(message): # argsはメッセージの内容を取ってる messag
     # {"UGES7CGJU": [URL1, URL2, URL3], "QWEZZRT2": [URL1], ....}
 
 
-    message.reply(f'これおすすめやで\n{music_list[randnum]}') 
+    message.reply(f'この曲おすすめだから聞いてみてぽよ〜\n{music_list[randnum]}') 
     #message.reply(message.body['text']) # メンション
     # message.reply(result['text'])
     
-@respond_to('umameshi') 
+@respond_to('うまめし') 
 def umameshi_func(message):
 
     result2 = fetch_text('CC8JN3PC6')
@@ -103,10 +103,10 @@ def umameshi_func(message):
     # print(umameshi_list)
     # print(len(umameshi_list))
 
-    randnum2 = random.randrange(0,len(umameshi_list) - 1) #len(music_list)で今ある投稿分の乱数を指定
+    randnum2 = random.randrange(0,len(umameshi_list) - 1) 
     umameshi_list[randnum2] 
 
-    message.reply(f'これうんまいで〜〜〜！\n{umameshi_list[randnum2]}') 
+    message.reply(f'ここ美味しいからおすすめぽよ〜\n{umameshi_list[randnum2]}') 
 
 # @listen_to('リッスン')
 # def listen_func(message):
