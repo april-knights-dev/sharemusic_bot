@@ -8,7 +8,6 @@ import requests
 import urllib.request as req
 import sys
 import json
-from bs4 import BeautifulSoup
 
 import json
 import pprint
