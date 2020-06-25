@@ -105,7 +105,7 @@ def umameshi_func(message):
     randnum2 = random.randrange(0,len(umameshi_list) - 1) 
     umameshi_list[randnum2] 
 
-    message.reply(f'ここ美味しいからおすすめぽよ〜\n{umameshi_list[randnum2]}') 
+    message.reply(f'\nここ美味しいからおすすめぽよ〜\n{umameshi_list[randnum2]}') 
 
 # @listen_to('リッスン')
 # def listen_func(message):
