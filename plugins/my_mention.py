@@ -83,7 +83,7 @@ def music_func(message): # argsはメッセージの内容を取ってる messag
     # {"UGES7CGJU": [URL1, URL2, URL3], "QWEZZRT2": [URL1], ....}
 
 
-    message.reply(f'この曲おすすめだから聞いてみてぽよ〜\n{music_list[randnum]}') 
+    message.reply(f'\nこの曲おすすめだから聞いてみてぽよ〜\n{music_list[randnum]}') 
     #message.reply(message.body['text']) # メンション
     # message.reply(result['text'])
     
