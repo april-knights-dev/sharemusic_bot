@@ -11,6 +11,7 @@ import json
 
 import json
 import pprint
+import urllib
 
 import random
 
@@ -90,22 +91,37 @@ def music_func(message): # argsはメッセージの内容を取ってる messag
 @respond_to('うまめし') 
 def umameshi_func(message):
 
-    result2 = fetch_text('CC8JN3PC6')
-    # print(result2)
-    msg2 = result2['messages']
+    # うまめしから書き込みの一覧を取得する
+    result = fetch_text('CC8JN3PC6')
+    msgs = result['messages']
+
+    # 取得した一覧からランダムに一つだけ選び、URLを返す
+    def get_random_umameshi(list):   
+        umameshi_list = []
+        for n in list:
+            if n.get('attachments') is not None:
+                if n['attachments'][0].get('title_link') is not None:
+                    umameshi_list.append(n['attachments'][0]['title_link'])
+
+        randnum2 = random.randrange(0,len(umameshi_list) - 1) 
+        return umameshi_list[randnum2]
     
-    umameshi_list = []
-    for n in msg2:
-        if n.get('attachments') is not None:
-            if n['attachments'][0].get('title_link') is not None:
-                 umameshi_list.append(n['attachments'][0]['title_link'])
-    # print(umameshi_list)
-    # print(len(umameshi_list))
+    # ランダムに取得したURLが閉店していた場合再度取得する、していなかった場合そのURLを返す
+    def reply_func():
+        url = ''
+        not_close = False
+        while not not_close:
+            url = get_random_umameshi(msgs)
+            d = urllib.request.urlopen(url)
+            html = d.read()
+            html = html.decode('utf-8')
+            d.close()
+            if '【閉店】' not in html:
+                not_close = True
+        return url
 
-    randnum2 = random.randrange(0,len(umameshi_list) - 1) 
-    umameshi_list[randnum2] 
-
-    message.reply(f'\nここ美味しいからおすすめぽよ〜\n{umameshi_list[randnum2]}') 
+    umameshi_url = reply_func()
+    message.reply(f'\nここ美味しいからおすすめぽよ〜\n{umameshi_url}') 
 
 # @listen_to('リッスン')
 # def listen_func(message):
