@@ -113,6 +113,7 @@ def umameshi_func(message):
         count = 0
         while not not_close:
             try:
+                # シャッフルで取得したURL先を見て閉店していたら繰り返す
                 url = get_random_umameshi(msgs)
                 d = urllib.request.urlopen(url)
                 html = d.read()
@@ -121,14 +122,21 @@ def umameshi_func(message):
                 if '【閉店】' not in html:
                     not_close = True
             except:
+                # 五回やってダメだったらダメ
                 count += 1
                 if count == 5:
-                    url = get_random_umameshi(msgs)
+                    url = False
                     not_close = True
         return url
 
+    # umameshi_url
+    # 文字列 = 正常に取得できたURL
+    # False = 食べログか何かが落ちてそう
     umameshi_url = reply_func()
-    message.reply(f'\nここ美味しいからおすすめぽよ〜\n{umameshi_url}') 
+    if umameshi_url != False:
+        message.reply(f'\nここ美味しいからおすすめぽよ〜\n{umameshi_url}') 
+    else:
+        message.reply('なんか調子悪いぽよ・・・')
 
 # @listen_to('リッスン')
 # def listen_func(message):
