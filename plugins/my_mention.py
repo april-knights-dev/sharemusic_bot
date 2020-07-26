@@ -110,14 +110,21 @@ def umameshi_func(message):
     def reply_func():
         url = ''
         not_close = False
+        count = 0
         while not not_close:
-            url = get_random_umameshi(msgs)
-            d = urllib.request.urlopen(url)
-            html = d.read()
-            html = html.decode('utf-8')
-            d.close()
-            if '【閉店】' not in html:
-                not_close = True
+            try:
+                url = get_random_umameshi(msgs)
+                d = urllib.request.urlopen(url)
+                html = d.read()
+                html = html.decode('utf-8')
+                d.close()
+                if '【閉店】' not in html:
+                    not_close = True
+            except:
+                count += 1
+                if count == 5:
+                    url = get_random_umameshi(msgs)
+                    not_close = True
         return url
 
     umameshi_url = reply_func()
