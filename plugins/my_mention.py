@@ -36,7 +36,7 @@ import random
 # respond_toで指定してもいいし、中でif message=xxx と分岐してもいい
 
 # @respond_to(('.*'))
-@respond_to('音楽')
+@listen_to('^音楽$')
 def music_func(message): # argsはメッセージの内容を取ってる messageはメンション者の取得
 
     # 1. 型を確認する → type(変数)
@@ -88,7 +88,7 @@ def music_func(message): # argsはメッセージの内容を取ってる messag
     #message.reply(message.body['text']) # メンション
     # message.reply(result['text'])
     
-@respond_to('うまめし') 
+@listen_to('^うまめし$') 
 def umameshi_func(message):
 
     # うまめしから書き込みの一覧を取得する
